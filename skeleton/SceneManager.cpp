@@ -47,9 +47,16 @@ void SceneManager::update(double dt) {
 // permite centralizar atajos globales si se desea en el futuro.
 void SceneManager::keyPress(unsigned char key, const physx::PxTransform& cameraTransform) {
     // Teclas globales de navegación entre prácticas
+
     if (key == 'V') {
         changeScene("EscenaVacia");
         return; // Consumimos el evento para que no interfiera con la escena
+    }
+
+    switch (key) {
+    case '0':
+        changeScene("Escena0");
+        break;
     }
 
     // Si no es una tecla de navegación global, se la pasamos a la escena activa
