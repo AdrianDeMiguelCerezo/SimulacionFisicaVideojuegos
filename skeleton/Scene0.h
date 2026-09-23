@@ -15,6 +15,18 @@ private:
 
 	physx::PxTransform m_transform_z;
 	RenderItem* m_renderItem_z{ nullptr };
+
+	physx::PxTransform m_transform_P1;
+	RenderItem* m_renderItem_P1{ nullptr };
+
+	physx::PxTransform m_transform_P2;
+	RenderItem* m_renderItem_P2{ nullptr };
+
+	physx::PxTransform m_transform_P3;
+	RenderItem* m_renderItem_P3{ nullptr };
+
+	physx::PxTransform m_transform_P4;
+	RenderItem* m_renderItem_P4{ nullptr };
 public:
 	Scene0(std::string name) :Scene(std::move(name)) {}
 	virtual ~Scene0() {};
@@ -27,5 +39,8 @@ public:
 
     void keyPress(unsigned char key, const physx::PxTransform& camera) override {
     }
+
+	Vector4 darColorPorEscalar(float esc);
+	void renderItemPorPosicion(physx::PxShape* shape, physx::PxTransform trans, RenderItem* renderI, float escalar);
 };
 
