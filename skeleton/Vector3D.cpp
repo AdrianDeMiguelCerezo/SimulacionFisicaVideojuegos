@@ -34,9 +34,11 @@ Vector3D Vector3D::cross(const Vector3D& v) const
 	return Vector3D(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x);
 }
 
-bool Vector3D::operator=(Vector3D vec)
+void Vector3D::operator=(Vector3D vec)
 {
-	return (x == vec.x && y == vec.y && z == vec.z);
+	x = vec.x;
+	y = vec.y;
+	z = vec.z;
 }
 
 Vector3D Vector3D::operator+(Vector3D vec)
@@ -54,6 +56,10 @@ void Vector3D::operator+=(Vector3D vec)
 	x += vec.x;
 	y += vec.y;
 	z += vec.z;
+}
+
+Vector3D Vector3D::operator*(float value) {
+	return Vector3D(x * value, y * value, z * value);
 }
 
 Vector3D::operator physx::PxVec3() const

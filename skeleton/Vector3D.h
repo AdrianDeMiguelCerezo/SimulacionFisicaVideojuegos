@@ -15,10 +15,11 @@ public:
 	float dot(const Vector3D& v) const;
 	Vector3D cross(const Vector3D& v) const;
 
-	bool operator=(Vector3D vec);
+	void operator=(Vector3D vec);
 	Vector3D operator+(Vector3D vec);
 	Vector3D operator-(Vector3D vec);
 	void operator+=(Vector3D vec);
+	Vector3D operator*(float value);
 	operator physx::PxVec3() const;
 };
 
