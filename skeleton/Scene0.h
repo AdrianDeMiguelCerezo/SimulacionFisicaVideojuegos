@@ -1,6 +1,7 @@
 #pragma once
 #include "Scene.h"
 #include "RenderUtils.hpp"
+class Vector3D;
 class Scene0:public Scene
 {
 private:
@@ -27,6 +28,15 @@ private:
 
 	physx::PxTransform m_transform_P4;
 	RenderItem* m_renderItem_P4{ nullptr };
+
+	physx::PxTransform m_transform_A;
+	RenderItem* m_renderItem_A{ nullptr };
+
+	physx::PxTransform m_transform_B;
+	RenderItem* m_renderItem_B{ nullptr };
+
+	std::vector<physx::PxTransform> pathTrans;
+	std::vector<RenderItem*> pathVec;
 public:
 	Scene0(std::string name) :Scene(std::move(name)) {}
 	virtual ~Scene0() {};
@@ -42,5 +52,7 @@ public:
 
 	Vector4 darColorPorEscalar(float esc);
 	void renderItemPorPosicion(physx::PxTransform& trans, RenderItem* renderI, float escalar=0);
+
+	void renderPath(Vector3D A, Vector3D B);
 };
 
