@@ -41,6 +41,6 @@ public:
     }
 
 	Vector4 darColorPorEscalar(float esc);
-	void renderItemPorPosicion(physx::PxShape* shape, physx::PxTransform trans, RenderItem* renderI, float escalar);
+	void renderItemPorPosicion(physx::PxTransform& trans, RenderItem* renderI, float escalar=0);
 };
 

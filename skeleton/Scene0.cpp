@@ -1,6 +1,8 @@
 #include "Scene0.h"
 #include "Vector3D.h"
 
+#include <iostream>
+
 
 void Scene0::init() {
 	/*physx::PxShape* shape1=CreateShape(physx::PxSphereGeometry(2.0f));
@@ -38,27 +40,25 @@ void Scene0::init() {
 	//Reto B
 	Vector3D P1 = Vector3D(2.0f, 0.0f, 3.0f);
 	Vector3D P2 = Vector3D(-4.0f, 0.0f, 1.0f);
-	Vector3D P3 = Vector3D(0.0f, 0.0f, 5.0f);
+	Vector3D P3 = Vector3D(0.0f, 0.0f, -5.0f);
 	Vector3D P4 = Vector3D(3.0f, 0.0f, 0.0f);
+
 	float escP1 = P1.dot(Vector3D(0.0f, 0.0f, 1.0f));
 	float escP2 = P2.dot(Vector3D(0.0f, 0.0f, 1.0f));
 	float escP3 = P3.dot(Vector3D(0.0f, 0.0f, 1.0f));
 	float escP4 = P4.dot(Vector3D(0.0f, 0.0f, 1.0f));
+
+	//std::cout << escP1 << " " << escP2 << " " << escP3 << " " << escP4 << std::endl;
 
 	m_transform_P1 = physx::PxTransform(P1.operator physx::PxVec3());
 	m_transform_P2 = physx::PxTransform(P2.operator physx::PxVec3());
 	m_transform_P3 = physx::PxTransform(P3.operator physx::PxVec3());
 	m_transform_P4 = physx::PxTransform(P4.operator physx::PxVec3());
 
-	physx::PxShape* shapeP1 = CreateShape(physx::PxSphereGeometry(1.0f));
-	physx::PxShape* shapeP2 = CreateShape(physx::PxSphereGeometry(1.0f));
-	physx::PxShape* shapeP3 = CreateShape(physx::PxSphereGeometry(1.0f));
-	physx::PxShape* shapeP4 = CreateShape(physx::PxSphereGeometry(1.0f));
-
-	renderItemPorPosicion(shapeP1, m_transform_P1, m_renderItem_P1, escP1);
-	renderItemPorPosicion(shapeP2, m_transform_P2, m_renderItem_P2, escP2);
-	renderItemPorPosicion(shapeP3, m_transform_P3, m_renderItem_P3, escP3);
-	renderItemPorPosicion(shapeP4, m_transform_P4, m_renderItem_P4, escP4);
+	renderItemPorPosicion(m_transform_P1, m_renderItem_P1,escP1);
+	renderItemPorPosicion(m_transform_P2, m_renderItem_P2,escP2);
+	renderItemPorPosicion(m_transform_P3, m_renderItem_P3,escP3);
+	renderItemPorPosicion(m_transform_P4, m_renderItem_P4,escP4);
 
 	
 
@@ -113,6 +113,7 @@ Vector4 Scene0::darColorPorEscalar(float esc) {
 	}
 }
 
-void Scene0::renderItemPorPosicion(physx::PxShape* shape, physx::PxTransform trans, RenderItem* renderI, float escalar) {
-	renderI=new RenderItem(shape, &trans, darColorPorEscalar(escalar));
+void Scene0::renderItemPorPosicion(physx::PxTransform& trans, RenderItem* renderI, float escalar) {
+	renderI=new RenderItem(CreateShape(physx::PxSphereGeometry(2.0f)), &trans, darColorPorEscalar(escalar));
+	//std::cout << trans.p.x << trans.p.y<< trans.p.z<< std::endl;
 }
