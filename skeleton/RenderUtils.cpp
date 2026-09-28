@@ -5,6 +5,8 @@
 #include "core.hpp"
 #include "RenderUtils.hpp"
 
+#define FIXED_STEP
+
 
 using namespace physx;
 

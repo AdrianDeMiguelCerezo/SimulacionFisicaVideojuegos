@@ -7,6 +7,7 @@ private:
 	Vector3 vel;
 	Vector3 acel;
 	float damping;
+	physx::PxTransform previous_pose=physx::PxTransform(0,0,0);
 	physx::PxTransform pose;
 	RenderItem* renderItem;
 

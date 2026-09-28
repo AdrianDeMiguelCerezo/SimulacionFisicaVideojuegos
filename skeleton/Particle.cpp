@@ -13,6 +13,18 @@ Particle::~Particle() {
 
 void Particle::integrate(double t) {
 	vel = vel * pow(damping, t);
-	vel = vel + (t * acel);
-	pose.p = pose.p + (t * vel);
+
+	//Euler explicito
+	//pose.p = pose.p + (t * vel);
+	//vel = vel + (t * acel);
+	
+
+	//Euler Semi-implicito
+	//vel = vel + (t * acel);
+	//pose.p = pose.p + (t * vel);
+
+	//Verlet
+	physx::PxTransform prev = previous_pose;
+	previous_pose = pose;
+	pose.p = 2 * pose.p - prev.p + (t * t * acel);
 }
