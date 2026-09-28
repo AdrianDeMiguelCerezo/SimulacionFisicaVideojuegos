@@ -1,6 +1,6 @@
 #include "Particle.h"
 
-Particle::Particle(Vector3 pos, Vector3 vel,Vector3 acel) :pose(pos), vel(vel),acel(acel) {
+Particle::Particle(Vector3 pos, Vector3 vel,Vector3 acel,float damping) :pose(pos), vel(vel),acel(acel),damping(damping) {
 	renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(2.0f)), &pose, Vector4(0.0f, 0.0f, 0.0f, 1.0f));
 }
 
@@ -12,6 +12,7 @@ Particle::~Particle() {
 }
 
 void Particle::integrate(double t) {
-	vel.x = vel.x + (t * acel.x);
-	pose.p.x = pose.p.x + (t * vel.x);
+	vel = vel * pow(damping, t);
+	vel = vel + (t * acel);
+	pose.p = pose.p + (t * vel);
 }

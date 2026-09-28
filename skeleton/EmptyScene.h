@@ -17,7 +17,7 @@ public:
         // Se registra el RenderItem exactamente como en la plantilla original
         //m_renderItem = new RenderItem(shape, &m_transform, Vector4(1.0f, 0.0f, 0.0f, 1.0f));
 
-        particle = new Particle(Vector3(0, 0, 0), Vector3(10, 0, 0),Vector3(2,0,0));
+        particle = new Particle(Vector3(0, 0, 0), Vector3(10, 0, 0),Vector3(2,0,0),0.8);
     }
 
     void update(double dt) override {
