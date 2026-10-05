@@ -18,13 +18,20 @@ void Particle::integrate(double t) {
 	//pose.p = pose.p + (t * vel);
 	//vel = vel + (t * acel);
 	
+	if (!init) {
+		//Euler Semi-implicito
+		vel = vel + (t * acel);
+		pose.p = pose.p + (t * vel);
+		previous_pose.p = pose.p;
+		init = true;
+	}
+	else {
+		//Verlet
+		physx::PxTransform prev = previous_pose;
+		previous_pose = pose;
+		pose.p = 2 * pose.p - prev.p + (t * t * acel);
+	}
+	
 
-	//Euler Semi-implicito
-	//vel = vel + (t * acel);
-	//pose.p = pose.p + (t * vel);
-
-	//Verlet
-	physx::PxTransform prev = previous_pose;
-	previous_pose = pose;
-	pose.p = 2 * pose.p - prev.p + (t * t * acel);
+	
 }
