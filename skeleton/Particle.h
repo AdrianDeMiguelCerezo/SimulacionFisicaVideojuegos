@@ -16,6 +16,6 @@ public:
 	Particle(Vector3 pos, Vector3 vel,Vector3 acel,float damping);
 	~Particle();
 
-	void integrate(double t);
+	virtual void integrate(double t);
 };
 
