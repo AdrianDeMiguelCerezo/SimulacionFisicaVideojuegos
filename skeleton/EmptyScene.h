@@ -24,11 +24,50 @@ public:
         // Lógica/Integración del alumno (por ejemplo, movimiento simple)
         //m_transform.p.y -= static_cast<float>(9.8 * dt);
         particle->integrate(dt);
+        for (Projectile* p : projectiles) {
+            p->integrate(dt);
+        }
     }
 
     void keyPress(unsigned char key, const physx::PxTransform& camera) override {
         if (key == 'r' || key == 'R') {
             m_transform.p = physx::PxVec3(0.0f, 10.0f, 0.0f); // Reset
+        }
+
+        //Invocar projectil normal
+        if (key == 'p' || key == 'P') {
+            Camera* cam = GetCamera();
+            projectiles.push_back(new Projectile(cam->getTransform().p, cam->getDir() * 10, cam->getDir() * 2, cam->getDir() * 2,0.8));
+        }
+        //Invocar projectil cubico y lento
+        if (key == 'o' || key == 'O') {
+            Camera* cam = GetCamera();
+            projectiles.push_back(new Projectile(cam->getTransform().p, cam->getDir() * 10, cam->getDir() * 5, cam->getDir() * 2, 0.5,physx::PxBoxGeometry(2.0f,2.0f,2.0f)));
+        }
+
+
+        //Cambiar masa
+        if (key == 'f' || key == 'F') {
+            for (Projectile* p : projectiles) {
+                p->changeMass(1.0f);
+            }
+        }
+        if (key == 'c' || key == 'C') {
+            for (Projectile* p : projectiles) {
+                p->changeMass(-1.0f);
+            }
+        }
+
+        //Cambiar gravedad
+        if (key == 'g' || key == 'G') {
+            for (Projectile* p : projectiles) {
+                p->changeGravity(0.5f);
+            }
+        }
+        if (key == 'b' || key == 'B') {
+            for (Projectile* p : projectiles) {
+                p->changeGravity(-0.5f);
+            }
         }
     }
 
@@ -40,6 +79,9 @@ public:
         if (particle) {
             delete particle;
             particle = nullptr;
+        }
+        for (Projectile* p : projectiles) {
+            delete p;
         }
     }
 

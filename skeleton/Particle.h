@@ -13,7 +13,7 @@ protected:
 	bool init = false;
 
 public:
-	Particle(Vector3 pos, Vector3 vel,Vector3 acel,float damping);
+	Particle(Vector3 pos, Vector3 vel,Vector3 acel,float damping, const physx::PxGeometry& geo = physx::PxSphereGeometry(2.0f));
 	~Particle();
 
 	virtual void integrate(double t);
