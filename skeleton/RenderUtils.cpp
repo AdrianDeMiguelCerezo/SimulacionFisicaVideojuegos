@@ -82,7 +82,7 @@ void renderCallback()
 #ifdef FIXED_STEP
 	if (t < (1.0f / 30.0f))
 	{
-		fprintf(stderr, "Time: %f\n", stepTime);
+		//fprintf(stderr, "Time: %f\n", stepTime);
 		stepTime += t;
 	}
 	else

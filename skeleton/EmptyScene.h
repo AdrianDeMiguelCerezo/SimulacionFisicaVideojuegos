@@ -37,12 +37,12 @@ public:
         //Invocar projectil normal
         if (key == 'p' || key == 'P') {
             Camera* cam = GetCamera();
-            projectiles.push_back(new Projectile(cam->getTransform().p, cam->getDir() * 10, cam->getDir() * 2, cam->getDir() * 2,0.8));
+            projectiles.push_back(new Projectile(cam->getTransform().p, cam->getDir() * 25, cam->getDir() * 25, cam->getDir() * 2,0.8));
         }
         //Invocar projectil cubico y lento
         if (key == 'o' || key == 'O') {
             Camera* cam = GetCamera();
-            projectiles.push_back(new Projectile(cam->getTransform().p, cam->getDir() * 10, cam->getDir() * 5, cam->getDir() * 2, 0.5,physx::PxBoxGeometry(2.0f,2.0f,2.0f)));
+            projectiles.push_back(new Projectile(cam->getTransform().p, cam->getDir() * 25, cam->getDir() * 500, cam->getDir() * 2, 0.5,physx::PxBoxGeometry(2.0f,2.0f,2.0f)));
         }
 
 
@@ -61,12 +61,12 @@ public:
         //Cambiar gravedad
         if (key == 'g' || key == 'G') {
             for (Projectile* p : projectiles) {
-                p->changeGravity(0.5f);
+                p->changeGravity(1.0f);
             }
         }
         if (key == 'b' || key == 'B') {
             for (Projectile* p : projectiles) {
-                p->changeGravity(-0.5f);
+                p->changeGravity(-1.0f);
             }
         }
     }
