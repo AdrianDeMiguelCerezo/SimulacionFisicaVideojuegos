@@ -2,7 +2,7 @@
 
 #include <string>
 #include "PxPhysicsAPI.h"
-#include "Projectile.h"
+#include "ParticleGenerator.h"
 
 // Clase base para las distintas escenas de la aplicación.
 // Provee la interfaz mínima que debe implementar cualquier escena:
@@ -35,6 +35,7 @@ public:
 protected:
     // Nombre de la escena (útil para identificarla en menús o logs).
     std::string m_name;
-    std::vector<Projectile*> projectiles;
+
+    ParticleGenerator* p_gen;
 
 };

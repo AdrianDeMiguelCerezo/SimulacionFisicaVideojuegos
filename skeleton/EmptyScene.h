@@ -17,16 +17,14 @@ public:
         // Se registra el RenderItem exactamente como en la plantilla original
         //m_renderItem = new RenderItem(shape, &m_transform, Vector4(1.0f, 0.0f, 0.0f, 1.0f));
 
-        particle = new Particle(Vector3(0, 0, 0), Vector3(10, 0, 0),Vector3(2,0,0),0.8);
+        //particle = new Particle(Vector3(0, 0, 0), Vector3(10, 0, 0),Vector3(2,0,0),0.8);
+        p_gen = new ParticleGenerator(Vector3D(0, 0, 0), Vector3D(50.0f, 50.0f, 50.0f), Vector3D(100.0f, 100.0f, 100.0f), Vector3D(10.0f, 10.0f, 10.0f), 0.8f);
     }
 
     void update(double dt) override {
         // Lógica/Integración del alumno (por ejemplo, movimiento simple)
         //m_transform.p.y -= static_cast<float>(9.8 * dt);
-        particle->integrate(dt);
-        for (Projectile* p : projectiles) {
-            p->integrate(dt);
-        }
+        p_gen->integrate_gen(dt);
     }
 
     void keyPress(unsigned char key, const physx::PxTransform& camera) override {
@@ -35,34 +33,26 @@ public:
         }
 
         //Invocar projectil normal
-        if (key == 'p' || key == 'P') {
-            Camera* cam = GetCamera();
-            projectiles.push_back(new Projectile(cam->getTransform().p, cam->getDir() * 25, cam->getDir() * 25, cam->getDir() * 2,0.8));
-        }
+        //if (key == 'p' || key == 'P') {
+        //    Camera* cam = GetCamera();
+        //    projectiles.push_back(new Projectile(cam->getTransform().p, cam->getDir() * 25, cam->getDir() * 25, cam->getDir() * 2,0.8));
+        //}
 
 
         //Cambiar masa
         if (key == 'f' || key == 'F') {
-            for (Projectile* p : projectiles) {
-                p->changeMass(1.0f);
-            }
+            p_gen->changeMass(1.0f);
         }
         if (key == 'c' || key == 'C') {
-            for (Projectile* p : projectiles) {
-                p->changeMass(-1.0f);
-            }
+            p_gen->changeMass(-1.0f);
         }
 
         //Cambiar gravedad
         if (key == 'g' || key == 'G') {
-            for (Projectile* p : projectiles) {
-                p->changeGravity(1.0f);
-            }
+            p_gen->changeGravity(1.0f);
         }
         if (key == 'b' || key == 'B') {
-            for (Projectile* p : projectiles) {
-                p->changeGravity(-1.0f);
-            }
+            p_gen->changeGravity(-1.0f);
         }
     }
 
@@ -71,18 +61,12 @@ public:
             m_renderItem->release(); // Deregistra y destruye el item
             m_renderItem = nullptr;
         }
-        if (particle) {
-            delete particle;
-            particle = nullptr;
-        }
-        for (Projectile* p : projectiles) {
-            delete p;
+        if (p_gen) {
+            delete p_gen;
         }
     }
 
 private:
     physx::PxTransform m_transform;
     RenderItem* m_renderItem{ nullptr };
-
-    Particle* particle;
 };
