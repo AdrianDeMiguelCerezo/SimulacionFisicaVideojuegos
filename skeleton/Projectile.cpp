@@ -7,7 +7,7 @@ void Projectile::changeMass(float value) {
 
 void Projectile::changeGravity(float value) {
 	gravity_r += value;
-	gravity_s= (vel.dot(vel) / vel_real.dot(vel_real)) * gravity_r;
+	gravity_s= (vel.x / vel_real.x) * gravity_r;
 	std::cout << gravity_s <<" "<<vel.y<<" "<<vel_real.y<< std::endl;
 }
 

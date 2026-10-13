@@ -39,11 +39,6 @@ public:
             Camera* cam = GetCamera();
             projectiles.push_back(new Projectile(cam->getTransform().p, cam->getDir() * 25, cam->getDir() * 25, cam->getDir() * 2,0.8));
         }
-        //Invocar projectil cubico y lento
-        if (key == 'o' || key == 'O') {
-            Camera* cam = GetCamera();
-            projectiles.push_back(new Projectile(cam->getTransform().p, cam->getDir() * 25, cam->getDir() * 500, cam->getDir() * 2, 0.5,physx::PxBoxGeometry(2.0f,2.0f,2.0f)));
-        }
 
 
         //Cambiar masa
