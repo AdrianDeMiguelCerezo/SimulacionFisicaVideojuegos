@@ -19,9 +19,11 @@ private:
 
 	Vector3D start_pos;
 
-	int range_x;
-	int range_y;
-	int range_z;
+	std::random_device rd;
+	std::mt19937 gen;
+	std::uniform_int_distribution<> distr_x;
+	std::uniform_int_distribution<> distr_y;
+	std::uniform_int_distribution<> distr_z;
 
 
 

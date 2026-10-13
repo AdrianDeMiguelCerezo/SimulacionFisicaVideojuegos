@@ -26,16 +26,18 @@ private:
 	RenderItem* renderItem;
 	bool init = false;
 
-	float time_limit = 2.0f;
+	float time_limit = 5.0f;
 	float time = 0.0f;
 
-	float max_distance = 500.0f;
+	float max_distance = 100.0f;
 
 public:
 	Particle(Vector3D pos, Vector3D vel_r,Vector3D acel,float damping, const physx::PxGeometry& geo = physx::PxSphereGeometry(2.0f));
 	~Particle();
 
 	void integrate(double t);
+
+	void integrate_semi(double t);
 
 	//Le suma a la masa el valor
 	void changeMass(float value);

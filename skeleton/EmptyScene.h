@@ -18,7 +18,7 @@ public:
         //m_renderItem = new RenderItem(shape, &m_transform, Vector4(1.0f, 0.0f, 0.0f, 1.0f));
 
         //particle = new Particle(Vector3(0, 0, 0), Vector3(10, 0, 0),Vector3(2,0,0),0.8);
-        p_gen = new ParticleGenerator(Vector3D(0, 0, 0), Vector3D(50.0f, 50.0f, 50.0f), Vector3D(100.0f, 100.0f, 100.0f), Vector3D(10.0f, 10.0f, 10.0f), 0.8f);
+        p_gen = new ParticleGenerator(Vector3D(0, 0, 0), Vector3D(-100.0f, -100.0f, -100.0f), Vector3D(100.0f, 100.0f, 100.0f), Vector3D(0.0f, 0.0f, 0.0f), 0.8f);
     }
 
     void update(double dt) override {

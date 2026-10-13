@@ -3,8 +3,6 @@
 Particle::Particle(Vector3D pos, Vector3D vel_r,Vector3D acel,float damping,const physx::PxGeometry& geo) :pose(pos), vel_r(vel_r), acel(acel), damping(damping) {
 	vel = Vector3D(vel_r.x / vel_s, vel.y / vel_s, vel.z / vel_s);
 	renderItem = new RenderItem(CreateShape(geo), &pose, Vector4(0.0f, 0.0f, 0.0f, 1.0f));
-	changeMass(0);
-	changeGravity(0);
 }
 
 Particle::~Particle() {
@@ -39,6 +37,14 @@ void Particle::integrate(double t) {
 	
 	time += t;
 	
+}
+
+void Particle::integrate_semi(double t) {
+	acel.y = gravity_s;
+	//Euler Semi-implicito
+	vel = vel + (acel * t);
+	pose.p = pose.p + (vel * t);
+	time += t;
 }
 
 void Particle::changeMass(float value) {
