@@ -1,8 +1,9 @@
 #include "Particle.h"
 
-Particle::Particle(Vector3D pos, Vector3D vel_r,Vector3D acel,float damping,const physx::PxGeometry& geo) :pose(pos), vel_r(vel_r), acel(acel), damping(damping) {
-	vel = Vector3D(vel_r.x / vel_s, vel.y / vel_s, vel.z / vel_s);
-	renderItem = new RenderItem(CreateShape(geo), &pose, Vector4(0.0f, 0.0f, 0.0f, 1.0f));
+Particle::Particle(Vector3D pos, Vector3D vel_r,Vector3D acel,float damping,const physx::PxGeometry& geo,Vector4 mat) :start_pos(pos),pose(pos), vel_r(vel_r), acel(acel), damping(damping) {
+	vel = Vector3D(vel_r.x / vel_s, vel_r.y / vel_s, vel_r.z / vel_s);
+	renderItem = new RenderItem(CreateShape(geo), &pose, mat);
+
 }
 
 Particle::~Particle() {
@@ -59,12 +60,19 @@ void Particle::changeGravity(float value) {
 }
 
 
-bool Particle::isDead(Vector3D start_pos) {
+bool Particle::isDead() {
 	Vector3D pos = Vector3D(pose.p);
-	if (time >= time_limit || (pos.magnitude() - start_pos.magnitude()>=max_distance)) {
+	if (time >= time_limit || (getDistanceBetween(pos) >= max_distance)) {
 		return true;
 	}
 	else {
 		return false;
 	}
+}
+
+float Particle::getDistanceBetween(Vector3D curr_pos)
+{
+	Vector3D distance = curr_pos - start_pos;
+
+	return distance.magnitude();
 }

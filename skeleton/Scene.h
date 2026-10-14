@@ -36,6 +36,9 @@ protected:
     // Nombre de la escena (útil para identificarla en menús o logs).
     std::string m_name;
 
-    ParticleGenerator* p_gen;
+    ParticleGenerator* p_gen_uniform = nullptr;
+    ParticleGenerator* p_gen_normal = nullptr;
+    ParticleGenerator* p_gen_mist = nullptr;
+    ParticleGenerator* p_gen_waterfall = nullptr;
 
 };

@@ -21,18 +21,20 @@ private:
 
 	float damping;
 
+	Vector3D start_pos;
+
 	physx::PxTransform previous_pose=physx::PxTransform(0,0,0);
 	physx::PxTransform pose;
 	RenderItem* renderItem;
 	bool init = false;
 
-	float time_limit = 5.0f;
+	float time_limit = 10.0f;
 	float time = 0.0f;
 
-	float max_distance = 100.0f;
+	float max_distance = 5000.0f;
 
 public:
-	Particle(Vector3D pos, Vector3D vel_r,Vector3D acel,float damping, const physx::PxGeometry& geo = physx::PxSphereGeometry(2.0f));
+	Particle(Vector3D pos, Vector3D vel_r,Vector3D acel,float damping, const physx::PxGeometry& geo = physx::PxSphereGeometry(2.0f),Vector4 mat=Vector4(0.0f,0.0f,0.0f,1.0f));
 	~Particle();
 
 	void integrate(double t);
@@ -45,6 +47,8 @@ public:
 	//Le suma a la gravedad el valor
 	void changeGravity(float value);
 
-	bool isDead(Vector3D start_pos);
+	bool isDead();
+
+	float getDistanceBetween(Vector3D curr_pos);
 };
 
