@@ -39,6 +39,9 @@ private:
 	float deviation;
 
 
+	const int POOL_SIZE = 1000;
+	int active_index = 0;
+
 
 public:
 
@@ -58,9 +61,9 @@ public:
 
 	void changeMass(float value);
 
+	void activateParticle(Vector3D pos, Vector3D vel);
 
-
-
+	void deactivateParticle(int particle_index);
 
 };
 
