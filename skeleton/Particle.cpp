@@ -1,6 +1,6 @@
 #include "Particle.h"
 
-Particle::Particle(Vector3D pos, Vector3D vel_r,Vector3D acel,float damping, const physx::PxGeometry& geo,Vector4 mat) :start_pos(pos),pose(pos), vel_r(vel_r), acel(acel), damping(damping){
+Particle::Particle(Vector3D pos, Vector3D vel_r,Vector3D acel,float damping,const physx::PxGeometry& geo,Vector4 mat) :start_pos(pos),pose(pos), vel_r(vel_r), acel(acel), damping(damping) {
 	vel = Vector3D(vel_r.x / vel_s, vel_r.y / vel_s, vel_r.z / vel_s);
 	renderItem = new RenderItem(CreateShape(geo), &pose, mat);
 
@@ -75,22 +75,4 @@ float Particle::getDistanceBetween(Vector3D curr_pos)
 	Vector3D distance = curr_pos - start_pos;
 
 	return distance.magnitude();
-}
-
-void Particle::setPosistion(Vector3D pos)
-{
-	pose.p = pos;
-	start_pos = pos;
-	renderItem->transform = &pose;
-}
-
-void Particle::setVelocity(Vector3D velo_r)
-{
-	vel_r = velo_r;
-	vel = Vector3D(vel_r.x / vel_s, vel_r.y / vel_s, vel_r.z / vel_s);
-}
-
-void Particle::resetTime()
-{
-	time = 0.0f;
 }

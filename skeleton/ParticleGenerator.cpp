@@ -1,5 +1,4 @@
 #include "ParticleGenerator.h"
-#include <algorithm>
 
 ParticleGenerator::ParticleGenerator(Vector3D pos, Vector3D other_pos, Vector3D vel_r_min, Vector3D vel_r_max, Vector3D ac, float damping, 
 	int freq,PARTICLE_COLOR pc,GENERATE_TYPE gt):
@@ -46,8 +45,6 @@ void ParticleGenerator::setVariables(Vector3D pos, Vector3D other_pos, PARTICLE_
 		particle_mat = Vector4(0.02f, 0.005f, 1.0f, 1.0f);
 		break;
 	}
-
-	particles = std::vector<Particle*>(POOL_SIZE, new Particle(pos, Vector3D(0, 0, 0), Vector3D(0, 0, 0), 0.8, physx::PxSphereGeometry(2.0f), particle_mat));
 }
 
 void ParticleGenerator::integrate_gen(double t) {
@@ -62,16 +59,18 @@ void ParticleGenerator::integrate_gen(double t) {
 			break;
 		}
 		Vector3D randPos = Vector3D(distr_x_pos(gen), distr_y_pos(gen), distr_z_pos(gen));
-
-		activateParticle(randPos, randVec);
+		particles.push_back(new Particle(randPos,
+			randVec,
+			acel, damping, physx::PxSphereGeometry(2.0f), particle_mat));
 	}
 
 
-	for (int i = active_index - 1;i >= 0;--i) {
-		Particle* p = particles[i];
+	for (auto it = particles.begin(); it != particles.end(); ++it) {
+		Particle* p = *it;
 		p->integrate_semi(t);
 		if (p->isDead()) {
-			deactivateParticle(i);
+			it=particles.erase(it);
+			delete p;
 		}
 		
 	}
@@ -88,21 +87,4 @@ void ParticleGenerator::changeMass(float value) {
 	for (Particle* p : particles) {
 		p->changeMass(value);
 	}
-}
-
-void ParticleGenerator::activateParticle(Vector3D pos, Vector3D vel)
-{
-	if (active_index < POOL_SIZE) {
-		particles[active_index]->setPosistion(pos);
-		particles[active_index]->setVelocity(vel);
-		particles[active_index]->resetTime();
-		active_index++;
-		std::cout << active_index << std::endl;
-	}
-}
-
-void ParticleGenerator::deactivateParticle(int particle_index)
-{
-	std::swap(particles[active_index-1], particles[particle_index]);
-	active_index--;
 }
