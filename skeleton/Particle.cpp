@@ -76,3 +76,8 @@ float Particle::getDistanceBetween(Vector3D curr_pos)
 
 	return distance.magnitude();
 }
+
+void Particle::addForce(Vector3D force)
+{
+	_force += force;
+}

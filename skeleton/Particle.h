@@ -33,6 +33,8 @@ private:
 
 	float max_distance = 5000.0f;
 
+	Vector3D _force = Vector3D(0, 0, 0);
+
 public:
 	Particle(Vector3D pos, Vector3D vel_r,Vector3D acel,float damping, const physx::PxGeometry& geo = physx::PxSphereGeometry(2.0f),Vector4 mat=Vector4(0.0f,0.0f,0.0f,1.0f));
 	~Particle();
@@ -50,5 +52,9 @@ public:
 	bool isDead();
 
 	float getDistanceBetween(Vector3D curr_pos);
+
+	void addForce(Vector3D force);
+
+	float getMass() { return mass_s; }
 };
 
