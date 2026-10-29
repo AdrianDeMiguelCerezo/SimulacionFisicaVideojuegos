@@ -13,8 +13,8 @@ ParticleGenerator::ParticleGenerator(Vector3D pos, Vector3D other_pos, Vector3D 
 }
 
 ParticleGenerator::ParticleGenerator(Vector3D pos, Vector3D other_pos, float mean, float deviation, Vector3D ac, float damping, 
-	int freq,PARTICLE_COLOR pc, GENERATE_TYPE gt):
-	mean(mean),deviation(deviation),acel(ac),damping(damping), spawn_frequency(freq),gt(gt){
+	int freq,bool use_forces,PARTICLE_COLOR pc, GENERATE_TYPE gt):
+	mean(mean),deviation(deviation),acel(ac),damping(damping), spawn_frequency(freq),use_forces(use_forces),gt(gt){
 
 	gen = std::mt19937(rd());
 	distr_n = std::normal_distribution<float>(mean, deviation);
@@ -45,6 +45,8 @@ void ParticleGenerator::setVariables(Vector3D pos, Vector3D other_pos, PARTICLE_
 		particle_mat = Vector4(0.02f, 0.005f, 1.0f, 1.0f);
 		break;
 	}
+
+	grav_force = new GravityForceGenerator(Vector3(0, -10, 0));
 }
 
 void ParticleGenerator::integrate_gen(double t) {
@@ -67,7 +69,14 @@ void ParticleGenerator::integrate_gen(double t) {
 
 	for (auto it = particles.begin(); it != particles.end(); ++it) {
 		Particle* p = *it;
-		p->integrate_semi(t);
+		if (use_forces) {
+			grav_force->updateForce(p, t);
+			p->integrate_force(t);
+		}
+		else {
+			p->integrate_semi(t);
+		}
+		
 		if (p->isDead()) {
 			it=particles.erase(it);
 			delete p;

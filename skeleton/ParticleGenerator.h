@@ -3,6 +3,7 @@
 #include <random>
 #include "Vector3D.h"
 #include "Particle.h"
+#include "GravityForceGenerator.h"
 class ParticleGenerator
 {
 public:
@@ -38,6 +39,9 @@ private:
 	float mean;
 	float deviation;
 
+	bool use_forces;
+
+	GravityForceGenerator* grav_force;
 
 
 public:
@@ -46,7 +50,7 @@ public:
 		int freq=1,PARTICLE_COLOR pc=PARTICLE_COLOR::BLACK,GENERATE_TYPE gt = GENERATE_TYPE::UNIFORM);
 
 	ParticleGenerator(Vector3D pos, Vector3D other_pos, float mean, float deviation, Vector3D ac, float damping, 
-		int freq=1,PARTICLE_COLOR pc = PARTICLE_COLOR::BLACK, GENERATE_TYPE gt = GENERATE_TYPE::NORMAL);
+		int freq=1,bool use_forces=true,PARTICLE_COLOR pc = PARTICLE_COLOR::BLACK, GENERATE_TYPE gt = GENERATE_TYPE::NORMAL);
 
 	~ParticleGenerator();
 

@@ -48,6 +48,17 @@ void Particle::integrate_semi(double t) {
 	time += t;
 }
 
+void Particle::integrate_force(double t)
+{
+	acel = _force * mass_s;
+
+	vel = vel + (acel * t);
+	pose.p = pose.p + (vel * t);
+	time += t;
+
+	_force = Vector3(0, 0, 0);
+}
+
 void Particle::changeMass(float value) {
 	mass_r += value;
 	mass_s = mass_r * pow(vel_r.x / vel.x, 2);
@@ -56,7 +67,6 @@ void Particle::changeMass(float value) {
 void Particle::changeGravity(float value) {
 	gravity_r += value;
 	gravity_s = (vel.x / vel_r.x) * gravity_r;
-	std::cout << gravity_s << " " << vel.y << " " << vel_r.y << std::endl;
 }
 
 
@@ -80,4 +90,11 @@ float Particle::getDistanceBetween(Vector3D curr_pos)
 void Particle::addForce(Vector3D force)
 {
 	_force += force;
+}
+
+Vector3 Particle::getSimGrav(Vector3D grav_real)
+{
+	Vector3D modVel = (vel / vel_r);
+
+	return Vector3D(modVel.x * grav_real.x, modVel.y * grav_real.y, modVel.z * grav_real.z);
 }

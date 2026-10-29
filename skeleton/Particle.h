@@ -12,7 +12,7 @@ private:
 	Vector3D vel;
 
 	float mass_r = 0.0f;
-	float mass_s = 0.0f;
+	float mass_s = 2.0f;
 
 	float gravity_r = 0.0f;
 	float gravity_s = -10.0f;
@@ -43,6 +43,8 @@ public:
 
 	void integrate_semi(double t);
 
+	void integrate_force(double t);
+
 	//Le suma a la masa el valor
 	void changeMass(float value);
 
@@ -56,5 +58,7 @@ public:
 	void addForce(Vector3D force);
 
 	float getMass() { return mass_s; }
+
+	Vector3 getSimGrav(Vector3D grav_real);
 };
 

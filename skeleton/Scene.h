@@ -41,4 +41,8 @@ protected:
     ParticleGenerator* p_gen_mist = nullptr;
     ParticleGenerator* p_gen_waterfall = nullptr;
 
+    //Prac 3
+    ParticleGenerator* p_gen_grav = nullptr;
+    ParticleGenerator* p_gen_grav_force = nullptr;
+
 };
