@@ -4,6 +4,7 @@
 #include "Vector3D.h"
 #include "Particle.h"
 #include "GravityForceGenerator.h"
+#include "WindForceGenerator.h"
 class ParticleGenerator
 {
 public:
@@ -42,6 +43,8 @@ private:
 	bool use_forces;
 
 	GravityForceGenerator* grav_force;
+
+	WindForceGenerator* wind_force;
 
 
 public:

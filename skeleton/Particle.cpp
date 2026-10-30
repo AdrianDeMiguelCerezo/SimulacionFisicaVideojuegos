@@ -92,9 +92,19 @@ void Particle::addForce(Vector3D force)
 	_force += force;
 }
 
-Vector3 Particle::getSimGrav(Vector3D grav_real)
+Vector3D Particle::getSimGrav(Vector3D grav_real)
 {
 	Vector3D modVel = (vel / vel_r);
 
 	return Vector3D(modVel.x * grav_real.x, modVel.y * grav_real.y, modVel.z * grav_real.z);
+}
+
+Vector3D Particle::getPos()
+{
+	return Vector3D(pose.p);
+}
+
+Vector3D Particle::getVel()
+{
+	return vel;
 }

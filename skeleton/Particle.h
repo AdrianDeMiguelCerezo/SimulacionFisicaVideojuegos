@@ -59,6 +59,10 @@ public:
 
 	float getMass() { return mass_s; }
 
-	Vector3 getSimGrav(Vector3D grav_real);
+	Vector3D getSimGrav(Vector3D grav_real);
+
+	Vector3D getPos();
+
+	Vector3D getVel();
 };
 

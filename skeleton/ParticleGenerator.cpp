@@ -47,6 +47,7 @@ void ParticleGenerator::setVariables(Vector3D pos, Vector3D other_pos, PARTICLE_
 	}
 
 	grav_force = new GravityForceGenerator(Vector3(0, -10, 0));
+	wind_force = new WindForceGenerator(Vector3D(20, 100, -20), Vector3D(-20, -100, 0), Vector3D(0, 0, 100), Vector3D(0, 50, 50), 0.8);
 }
 
 void ParticleGenerator::integrate_gen(double t) {
@@ -71,6 +72,7 @@ void ParticleGenerator::integrate_gen(double t) {
 		Particle* p = *it;
 		if (use_forces) {
 			grav_force->updateForce(p, t);
+			wind_force->updateForce(p, t);
 			p->integrate_force(t);
 		}
 		else {
