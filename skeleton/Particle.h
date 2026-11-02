@@ -28,10 +28,10 @@ private:
 	RenderItem* renderItem;
 	bool init = false;
 
-	float time_limit = 10.0f;
+	float time_limit = 20.0f;
 	float time = 0.0f;
 
-	float max_distance = 5000.0f;
+	float max_distance = 10000.0f;
 
 	Vector3D _force = Vector3D(0, 0, 0);
 

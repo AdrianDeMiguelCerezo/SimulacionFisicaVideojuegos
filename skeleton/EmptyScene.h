@@ -24,7 +24,7 @@ public:
         //p_gen_waterfall = new ParticleGenerator(Vector3D(200, 100, 0), Vector3D(200, 100, 100), 150.0f, 50.0f, Vector3D(0, 0, 0), 0.7f,15, ParticleGenerator::WATER_BLUE);
 
         //p_gen_grav = new ParticleGenerator(Vector3D(0, 0, 0), Vector3D(0, 0, 0), 100.0, 50.0, Vector3D(0, 0, 0), 0.8, 1,false);
-        p_gen_grav_force = new ParticleGenerator(Vector3D(0, 0, 0), Vector3D(0, 0, 0), 100.0, 50.0, Vector3D(0, 0, 0), 0.8, 1);
+        p_gen_grav_force = new ParticleGenerator(Vector3D(0, 0, 0), Vector3D(0, 0, 0), 100.0, 50.0, Vector3D(0, 0, 0), 0.8, 10);
     }
 
     void update(double dt) override {

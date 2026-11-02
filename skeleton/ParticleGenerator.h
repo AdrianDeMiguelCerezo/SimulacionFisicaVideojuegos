@@ -5,6 +5,7 @@
 #include "Particle.h"
 #include "GravityForceGenerator.h"
 #include "WindForceGenerator.h"
+#include "TwisterGenerator.h"
 class ParticleGenerator
 {
 public:
@@ -45,6 +46,8 @@ private:
 	GravityForceGenerator* grav_force;
 
 	WindForceGenerator* wind_force;
+
+	TwisterGenerator* twister;
 
 
 public:

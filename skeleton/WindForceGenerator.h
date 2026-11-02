@@ -17,7 +17,9 @@ private:
 	//Vertice 3. Solo para z. El valor alto.
 	Vector3D vertex3;
 
+protected:
 	Vector3D wind_speed;
+	bool always_in_range = false;
 
 public:
 	WindForceGenerator(Vector3D vertex1, Vector3D vertex2, Vector3D vertex3, Vector3D wind_speed, float coef_R);
