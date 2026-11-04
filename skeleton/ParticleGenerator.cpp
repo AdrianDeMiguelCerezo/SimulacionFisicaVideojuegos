@@ -49,6 +49,7 @@ void ParticleGenerator::setVariables(Vector3D pos, Vector3D other_pos, PARTICLE_
 	grav_force = new GravityForceGenerator(Vector3(0, -10, 0));
 	wind_force = new WindForceGenerator(Vector3D(20, 100, -20), Vector3D(-20, -100, 0), Vector3D(0, 0, 100), Vector3D(0, 50, 50), 0.8);
 	twister = new TwisterGenerator(Vector3D(0, 0, 0), 50,0.8);
+	explosion = new ExplosionGenerator(50.0f, Vector3D(0, 0, 0), 10000.0f, 0.2);
 }
 
 void ParticleGenerator::integrate_gen(double t) {
@@ -72,9 +73,10 @@ void ParticleGenerator::integrate_gen(double t) {
 	for (auto it = particles.begin(); it != particles.end(); ++it) {
 		Particle* p = *it;
 		if (use_forces) {
-			grav_force->updateForce(p, t);
+			//grav_force->updateForce(p, t);
 			//wind_force->updateForce(p, t);
-			twister->updateForce(p, t);
+			//twister->updateForce(p, t);
+			explosion->updateForce(p, t);
 			p->integrate_force(t);
 		}
 		else {
@@ -87,6 +89,8 @@ void ParticleGenerator::integrate_gen(double t) {
 		}
 		
 	}
+	explosion->addTime(t);
+
 
 }
 

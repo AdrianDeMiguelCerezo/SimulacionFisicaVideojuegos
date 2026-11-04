@@ -6,6 +6,7 @@
 #include "GravityForceGenerator.h"
 #include "WindForceGenerator.h"
 #include "TwisterGenerator.h"
+#include "ExplosionGenerator.h"
 class ParticleGenerator
 {
 public:
@@ -49,6 +50,8 @@ private:
 
 	TwisterGenerator* twister;
 
+	ExplosionGenerator* explosion;
+
 
 public:
 
@@ -68,7 +71,7 @@ public:
 
 	void changeMass(float value);
 
-
+	void explode() { explosion->explode(); }
 
 
 

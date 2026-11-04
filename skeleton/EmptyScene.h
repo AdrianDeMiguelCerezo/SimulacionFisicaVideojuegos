@@ -77,6 +77,12 @@ public:
             p_gen_mist->changeGravity(-1.0f);
             p_gen_waterfall->changeGravity(-1.0f);
         }
+
+
+        //Explotar
+        if (key == 'e' || key == 'E') {
+            p_gen_grav_force->explode();
+        }
     }
 
     void cleanup() override {
