@@ -2,7 +2,11 @@
 
 #include <string>
 #include "PxPhysicsAPI.h"
-#include "ParticleGenerator.h"
+#include "ParticleSystem.h"
+#include "GravityForceGenerator.h"
+#include "WindForceGenerator.h"
+#include "TwisterGenerator.h"
+#include "ExplosionGenerator.h"
 
 // Clase base para las distintas escenas de la aplicación.
 // Provee la interfaz mínima que debe implementar cualquier escena:
@@ -45,4 +49,14 @@ protected:
     ParticleGenerator* p_gen_grav = nullptr;
     ParticleGenerator* p_gen_grav_force = nullptr;
 
+    //Sistemas
+    ParticleSystem* projectiles = nullptr;
+    ParticleSystem* part_syst_1 = nullptr;
+    ParticleSystem* part_syst_2 = nullptr;
+
+    //Generadores de fuerzas
+    GravityForceGenerator* grav_force = nullptr;
+    WindForceGenerator* wind_force = nullptr;
+    TwisterGenerator* twister = nullptr;
+    ExplosionGenerator* explosion = nullptr;
 };

@@ -1,9 +1,13 @@
 #include "Particle.h"
+#include "ForceGenerator.h"
+#include "ParticleSystem.h"
 
-Particle::Particle(Vector3D pos, Vector3D vel_r,Vector3D acel,float damping,const physx::PxGeometry& geo,Vector4 mat) :start_pos(pos),pose(pos), vel_r(vel_r), acel(acel), damping(damping) {
+Particle::Particle(ParticleSystem* ps,Vector3D pos, Vector3D vel_r,float mass,float damping,bool is_proj,const physx::PxGeometry& geo,Vector4 mat) :
+	ps(ps),start_pos(pos),pose(pos), vel_r(vel_r), mass_r(mass), damping(damping),is_projectile(is_proj) {
 	vel = Vector3D(vel_r.x / vel_s, vel_r.y / vel_s, vel_r.z / vel_s);
 	renderItem = new RenderItem(CreateShape(geo), &pose, mat);
-
+	if (is_projectile)changeMass(0);
+	else mass_s = mass_r;
 }
 
 Particle::~Particle() {
@@ -50,6 +54,16 @@ void Particle::integrate_semi(double t) {
 
 void Particle::integrate_force(double t)
 {
+	for (ForceGenerator* fg : forceGenerators) {
+		if (fg->getActive()) {
+			fg->updateForce(this, t);
+		}
+	}
+
+	if (is_projectile) {
+		_force = getSimForce();
+	}
+
 	acel = _force * mass_s;
 
 	vel = vel + (acel * t);
@@ -87,16 +101,20 @@ float Particle::getDistanceBetween(Vector3D curr_pos)
 	return distance.magnitude();
 }
 
+void Particle::addForceGenerator(ForceGenerator* fg) {
+	forceGenerators.push_back(fg);
+}
+
 void Particle::addForce(Vector3D force)
 {
 	_force += force;
 }
 
-Vector3D Particle::getSimGrav(Vector3D grav_real)
+Vector3D Particle::getSimForce()
 {
 	Vector3D modVel = (vel / vel_r);
 
-	return Vector3D(modVel.x * grav_real.x, modVel.y * grav_real.y, modVel.z * grav_real.z);
+	return Vector3D(modVel.x * _force.x, modVel.y * _force.y, modVel.z * _force.z);
 }
 
 Vector3D Particle::getPos()

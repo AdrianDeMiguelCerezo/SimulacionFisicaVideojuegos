@@ -66,6 +66,11 @@ Vector3D Vector3D::operator*(double value) {
 	return Vector3D(x * value, y * value, z * value);
 }
 
+Vector3D Vector3D::operator*(Vector3D vec)
+{
+	return Vector3D(x * vec.x, y * vec.y, z * vec.z);
+}
+
 Vector3D Vector3D::operator/(Vector3D vec) {
 	return Vector3D(x / vec.x, y / vec.y, z / vec.z);
 }

@@ -3,10 +3,7 @@
 #include <random>
 #include "Vector3D.h"
 #include "Particle.h"
-#include "GravityForceGenerator.h"
-#include "WindForceGenerator.h"
-#include "TwisterGenerator.h"
-#include "ExplosionGenerator.h"
+class ParticleSystem;
 class ParticleGenerator
 {
 public:
@@ -23,6 +20,8 @@ private:
 
 	Vector3D acel;
 	float damping;
+
+	float mass;
 
 	int spawn_frequency;
 
@@ -42,36 +41,22 @@ private:
 	float mean;
 	float deviation;
 
-	bool use_forces;
-
-	GravityForceGenerator* grav_force;
-
-	WindForceGenerator* wind_force;
-
-	TwisterGenerator* twister;
-
-	ExplosionGenerator* explosion;
+	ParticleSystem* ps = nullptr;
 
 
 public:
 
-	ParticleGenerator(Vector3D pos, Vector3D other_pos, Vector3D vel_r_min, Vector3D vel_r_max, Vector3D ac, float damping, 
+	ParticleGenerator(ParticleSystem* ps,Vector3D pos, Vector3D other_pos, Vector3D vel_r_min, Vector3D vel_r_max, float damping,float mass, 
 		int freq=1,PARTICLE_COLOR pc=PARTICLE_COLOR::BLACK,GENERATE_TYPE gt = GENERATE_TYPE::UNIFORM);
 
-	ParticleGenerator(Vector3D pos, Vector3D other_pos, float mean, float deviation, Vector3D ac, float damping, 
-		int freq=1,bool use_forces=true,PARTICLE_COLOR pc = PARTICLE_COLOR::BLACK, GENERATE_TYPE gt = GENERATE_TYPE::NORMAL);
+	ParticleGenerator(ParticleSystem* ps,Vector3D pos, Vector3D other_pos, float mean, float deviation, float damping, float mass,
+		int freq=1,PARTICLE_COLOR pc = PARTICLE_COLOR::BLACK, GENERATE_TYPE gt = GENERATE_TYPE::NORMAL);
 
 	~ParticleGenerator();
 
 	void setVariables(Vector3D pos, Vector3D other_pos, PARTICLE_COLOR pc);
 
 	void integrate_gen(double t);
-
-	void changeGravity(float value);
-
-	void changeMass(float value);
-
-	void explode() { explosion->explode(); }
 
 
 

@@ -1,8 +1,9 @@
 #include "ParticleGenerator.h"
+#include "ParticleSystem.h"
 
-ParticleGenerator::ParticleGenerator(Vector3D pos, Vector3D other_pos, Vector3D vel_r_min, Vector3D vel_r_max, Vector3D ac, float damping, 
+ParticleGenerator::ParticleGenerator(ParticleSystem* ps,Vector3D pos, Vector3D other_pos, Vector3D vel_r_min, Vector3D vel_r_max, float damping, float mass,
 	int freq,PARTICLE_COLOR pc,GENERATE_TYPE gt):
-	vel_r_min(vel_r_min),vel_r_max(vel_r_max),acel(ac),damping(damping),spawn_frequency(freq),gt(gt){ 
+	ps(ps),vel_r_min(vel_r_min),vel_r_max(vel_r_max),damping(damping),mass(mass),spawn_frequency(freq),gt(gt){ 
 
 	gen = std::mt19937(rd());
 	distr_x = std::uniform_int_distribution<>(vel_r_min.x, vel_r_max.x);
@@ -12,9 +13,9 @@ ParticleGenerator::ParticleGenerator(Vector3D pos, Vector3D other_pos, Vector3D 
 	setVariables(pos, other_pos, pc);
 }
 
-ParticleGenerator::ParticleGenerator(Vector3D pos, Vector3D other_pos, float mean, float deviation, Vector3D ac, float damping, 
-	int freq,bool use_forces,PARTICLE_COLOR pc, GENERATE_TYPE gt):
-	mean(mean),deviation(deviation),acel(ac),damping(damping), spawn_frequency(freq),use_forces(use_forces),gt(gt){
+ParticleGenerator::ParticleGenerator(ParticleSystem* ps,Vector3D pos, Vector3D other_pos, float mean, float deviation, float damping, float mass,
+	int freq,PARTICLE_COLOR pc, GENERATE_TYPE gt):
+	ps(ps),mean(mean),deviation(deviation),damping(damping),mass(mass), spawn_frequency(freq),gt(gt){
 
 	gen = std::mt19937(rd());
 	distr_n = std::normal_distribution<float>(mean, deviation);
@@ -46,10 +47,7 @@ void ParticleGenerator::setVariables(Vector3D pos, Vector3D other_pos, PARTICLE_
 		break;
 	}
 
-	grav_force = new GravityForceGenerator(Vector3(0, -10, 0));
-	wind_force = new WindForceGenerator(Vector3D(20, 100, -20), Vector3D(-20, -100, 0), Vector3D(0, 0, 100), Vector3D(0, 50, 50), 0.8);
-	twister = new TwisterGenerator(Vector3D(0, 0, 0), 50,0.8);
-	explosion = new ExplosionGenerator(50.0f, Vector3D(0, 0, 0), 10000.0f, 0.2);
+
 }
 
 void ParticleGenerator::integrate_gen(double t) {
@@ -64,24 +62,15 @@ void ParticleGenerator::integrate_gen(double t) {
 			break;
 		}
 		Vector3D randPos = Vector3D(distr_x_pos(gen), distr_y_pos(gen), distr_z_pos(gen));
-		particles.push_back(new Particle(randPos,
-			randVec,
-			acel, damping, physx::PxSphereGeometry(2.0f), particle_mat));
+		Particle* p = new Particle(ps, randPos,randVec,mass, damping, false, physx::PxSphereGeometry(2.0f), particle_mat);
+		particles.push_back(p);
+		ps->addForcesToParticle(p);
 	}
 
 
 	for (auto it = particles.begin(); it != particles.end(); ++it) {
 		Particle* p = *it;
-		if (use_forces) {
-			//grav_force->updateForce(p, t);
-			//wind_force->updateForce(p, t);
-			//twister->updateForce(p, t);
-			explosion->updateForce(p, t);
-			p->integrate_force(t);
-		}
-		else {
-			p->integrate_semi(t);
-		}
+		p->integrate_force(t);
 		
 		if (p->isDead()) {
 			it=particles.erase(it);
@@ -89,19 +78,6 @@ void ParticleGenerator::integrate_gen(double t) {
 		}
 		
 	}
-	explosion->addTime(t);
 
 
-}
-
-void ParticleGenerator::changeGravity(float value) {
-	for (Particle* p : particles) {
-		p->changeGravity(value);
-	}
-}
-
-void ParticleGenerator::changeMass(float value) {
-	for (Particle* p : particles) {
-		p->changeMass(value);
-	}
 }
