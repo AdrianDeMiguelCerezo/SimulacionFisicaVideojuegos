@@ -58,6 +58,7 @@ public:
 
 	void integrate_gen(double t);
 
+	void cleanup();
 
 
 };

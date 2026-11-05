@@ -10,7 +10,7 @@ private:
 	std::vector<ParticleGenerator*> particleGenerators;
 	std::vector<ForceGenerator*> forceGenerators;
 
-	bool forces_active = true;
+	bool generators_active = true;
 
 public:
 	ParticleSystem() {}
@@ -34,6 +34,10 @@ public:
 	void changeMasses(float value);
 
 	void integrateSystem(double t);
+
+	void setGenActive(bool value);
+
+	bool getGenActive() { return generators_active; }
 
 };
 

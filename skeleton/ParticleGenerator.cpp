@@ -24,9 +24,7 @@ ParticleGenerator::ParticleGenerator(ParticleSystem* ps,Vector3D pos, Vector3D o
 }
 
 ParticleGenerator::~ParticleGenerator() {
-	for (Particle* p: particles) {
-		delete p;
-	}
+	cleanup();
 }
 
 void ParticleGenerator::setVariables(Vector3D pos, Vector3D other_pos, PARTICLE_COLOR pc)
@@ -51,33 +49,41 @@ void ParticleGenerator::setVariables(Vector3D pos, Vector3D other_pos, PARTICLE_
 }
 
 void ParticleGenerator::integrate_gen(double t) {
-	for (int i = 0;i < spawn_frequency;++i) {
-		Vector3D randVec;
-		switch (gt) {
-		case GENERATE_TYPE::UNIFORM:
-			randVec = Vector3D(distr_x(gen), distr_y(gen), distr_z(gen));
-			break;
-		case GENERATE_TYPE::NORMAL:
-			randVec = Vector3D(distr_n(gen), distr_n(gen), distr_n(gen));
-			break;
+	if (ps->getGenActive()) {
+		for (int i = 0;i < spawn_frequency;++i) {
+			Vector3D randVec;
+			switch (gt) {
+			case GENERATE_TYPE::UNIFORM:
+				randVec = Vector3D(distr_x(gen), distr_y(gen), distr_z(gen));
+				break;
+			case GENERATE_TYPE::NORMAL:
+				randVec = Vector3D(distr_n(gen), distr_n(gen), distr_n(gen));
+				break;
+			}
+			Vector3D randPos = Vector3D(distr_x_pos(gen), distr_y_pos(gen), distr_z_pos(gen));
+			Particle* p = new Particle(ps, randPos, randVec, mass, damping, false, physx::PxSphereGeometry(2.0f), particle_mat);
+			particles.push_back(p);
+			ps->addForcesToParticle(p);
 		}
-		Vector3D randPos = Vector3D(distr_x_pos(gen), distr_y_pos(gen), distr_z_pos(gen));
-		Particle* p = new Particle(ps, randPos,randVec,mass, damping, false, physx::PxSphereGeometry(2.0f), particle_mat);
-		particles.push_back(p);
-		ps->addForcesToParticle(p);
+
+
+		for (auto it = particles.begin(); it != particles.end(); ++it) {
+			Particle* p = *it;
+			p->integrate_force(t);
+
+			if (p->isDead()) {
+				it = particles.erase(it);
+				delete p;
+			}
+
+		}
 	}
 
+}
 
-	for (auto it = particles.begin(); it != particles.end(); ++it) {
-		Particle* p = *it;
-		p->integrate_force(t);
-		
-		if (p->isDead()) {
-			it=particles.erase(it);
-			delete p;
-		}
-		
+void ParticleGenerator::cleanup() {
+	for (Particle* p : particles) {
+		delete p;
 	}
-
-
+	particles.clear();
 }

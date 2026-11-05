@@ -46,3 +46,12 @@ void ParticleSystem::integrateSystem(double t)
 		pg->integrate_gen(t);
 	}
 }
+
+void ParticleSystem::setGenActive(bool value) {
+	generators_active = value;
+	if (!generators_active) {
+		for (ParticleGenerator* pg : particleGenerators) {
+			pg->cleanup();
+		}
+	}
+}

@@ -34,7 +34,7 @@ public:
 
         grav_force = new GravityForceGenerator(Vector3(0, -10, 0));
         wind_force = new WindForceGenerator(Vector3D(20, 100, -20), Vector3D(-20, -100, 0), Vector3D(0, 0, 100), Vector3D(0, 50, 50), 0.8);
-        twister = new TwisterGenerator(Vector3D(0, 0, 0), 5000,0.3);
+        twister = new TwisterGenerator(Vector3D(0, 0, 0), 10000,0.5);
         explosion = new ExplosionGenerator(100.0f, Vector3D(0, 0, 0), 20000.0f, 0.2);
 
         projectiles->addForceGenerator(grav_force);
@@ -44,7 +44,7 @@ public:
         part_syst_2->addForceGenerator(explosion);
 
         ParticleGenerator* part_gen_1 = new ParticleGenerator(part_syst_1, Vector3D(0, 0, 0), Vector3D(0, 0, 0), Vector3D(-10, -10, -10), 
-            Vector3D(10, 10, 10), 0.8, 2, 5,ParticleGenerator::MIST_WHITE);
+            Vector3D(10, 10, 10), 0.8, 10, 5,ParticleGenerator::MIST_WHITE);
         part_syst_1->addParticleGenerator(part_gen_1);
 
         ParticleGenerator* part_gen_2 = new ParticleGenerator(part_syst_2, Vector3D(-10, -10, -10), Vector3D(10, 10, -10),
@@ -118,6 +118,14 @@ public:
         //Explotar
         if (key == 'e') {
             explosion->explode();
+        }
+
+        //Activar/desactivar generadores de particulas
+        if (key == 'l') {
+            part_syst_1->setGenActive(!part_syst_1->getGenActive());
+        }
+        if (key == 'L') {
+            part_syst_2->setGenActive(!part_syst_2->getGenActive());
         }
 
 
