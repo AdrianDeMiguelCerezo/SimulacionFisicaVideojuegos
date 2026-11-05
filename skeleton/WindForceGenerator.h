@@ -5,7 +5,7 @@ class WindForceGenerator :public ForceGenerator
 {
 private:
 	float coef_R;
-	//Vertices para determinar el area de efecto. Vertex 1 y 2 son para los ejes x y, y el 3 es para el eje z para hacer un area tridimensional.
+	//Vertices para determinar el area de efecto. Vertex 1 es para los ejes x y z, el 2 es para los ejes x y, y el 3 es para el eje z para hacer un area tridimensional.
 	//La fuerza solo se aplica si la partícula está en ese área 
 
 	//Vertice 1. Usado para x,y,z. Los valores altos excepto en la z que es el valor bajo.

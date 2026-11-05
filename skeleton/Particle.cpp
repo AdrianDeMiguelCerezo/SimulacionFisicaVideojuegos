@@ -4,10 +4,16 @@
 
 Particle::Particle(ParticleSystem* ps,Vector3D pos, Vector3D vel_r,float mass,float damping,bool is_proj,const physx::PxGeometry& geo,Vector4 mat) :
 	ps(ps),start_pos(pos),pose(pos), vel_r(vel_r), mass_r(mass), damping(damping),is_projectile(is_proj) {
-	vel = Vector3D(vel_r.x / vel_s, vel_r.y / vel_s, vel_r.z / vel_s);
+	
 	renderItem = new RenderItem(CreateShape(geo), &pose, mat);
-	if (is_projectile)changeMass(0);
-	else mass_s = mass_r;
+	if (is_projectile) {
+		changeMass(0);
+		vel = Vector3D(vel_r.x / vel_s, vel_r.y / vel_s, vel_r.z / vel_s);
+	}
+	else {
+		mass_s = mass_r;
+		vel = vel_r;
+	}
 }
 
 Particle::~Particle() {
@@ -60,11 +66,12 @@ void Particle::integrate_force(double t)
 		}
 	}
 
-	if (is_projectile) {
-		_force = getSimForce();
-	}
+	//if (is_projectile) {
+	//	_force = getSimForce();
+	//	std::cout << _force.x << " " << _force.y << " " << _force.z << std::endl;
+	//}
 
-	acel = _force * mass_s;
+	acel = _force * (1/mass_s);
 
 	vel = vel + (acel * t);
 	pose.p = pose.p + (vel * t);
@@ -76,6 +83,8 @@ void Particle::integrate_force(double t)
 void Particle::changeMass(float value) {
 	mass_r += value;
 	mass_s = mass_r * pow(vel_r.x / vel.x, 2);
+	if (mass_s < 0.1)mass_s = 0.1;
+	std::cout << mass_s << std::endl;
 }
 
 void Particle::changeGravity(float value) {

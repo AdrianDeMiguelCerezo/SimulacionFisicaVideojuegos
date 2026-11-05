@@ -21,6 +21,7 @@ public:
 	}
 	void addProjectile(Particle* p) {
 		projectiles.push_back(p);
+		addForcesToParticle(p);
 	}
 	void addParticleGenerator(ParticleGenerator* pg) {
 		particleGenerators.push_back(pg);

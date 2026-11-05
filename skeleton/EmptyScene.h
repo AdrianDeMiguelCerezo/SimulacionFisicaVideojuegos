@@ -34,8 +34,8 @@ public:
 
         grav_force = new GravityForceGenerator(Vector3(0, -10, 0));
         wind_force = new WindForceGenerator(Vector3D(20, 100, -20), Vector3D(-20, -100, 0), Vector3D(0, 0, 100), Vector3D(0, 50, 50), 0.8);
-        twister = new TwisterGenerator(Vector3D(0, 0, 0), 500,0.1);
-        explosion = new ExplosionGenerator(50.0f, Vector3D(0, 0, 0), 10000.0f, 0.2);
+        twister = new TwisterGenerator(Vector3D(0, 0, 0), 5000,0.3);
+        explosion = new ExplosionGenerator(100.0f, Vector3D(0, 0, 0), 20000.0f, 0.2);
 
         projectiles->addForceGenerator(grav_force);
         part_syst_1->addForceGenerator(grav_force);
@@ -47,8 +47,8 @@ public:
             Vector3D(10, 10, 10), 0.8, 2, 5,ParticleGenerator::MIST_WHITE);
         part_syst_1->addParticleGenerator(part_gen_1);
 
-        ParticleGenerator* part_gen_2 = new ParticleGenerator(part_syst_2, Vector3D(-20, -20, -20), Vector3D(20, 20, -20),
-            100, 50, 0.8, 2, 3, ParticleGenerator::WATER_BLUE);
+        ParticleGenerator* part_gen_2 = new ParticleGenerator(part_syst_2, Vector3D(-10, -10, -10), Vector3D(10, 10, -10),
+            5, 2, 0.8, 2, 3, ParticleGenerator::WATER_BLUE);
         part_syst_2->addParticleGenerator(part_gen_2);
     }
 
@@ -77,15 +77,22 @@ public:
         //Disparar proyectil
         if (key == 'p') {
             Camera* cam = GetCamera();
-            projectiles->addProjectile(new Particle(projectiles, cam->getTransform().p, Vector3D(50, 50, 50) * Vector3D(cam->getDir()), 1, 0.6, true));
+            projectiles->addProjectile(new Particle(projectiles, cam->getTransform().p, Vector3D(500, 500, 500) * Vector3D(cam->getDir()), 1, 0.6, true));
         }
 
-        //Disparar proyectil cubicoo que vaya mas lento
+        //Disparar proyectil cubico que vaya mas lento
         if (key == 'P') {
             Camera* cam = GetCamera();
-            projectiles->addProjectile(new Particle(projectiles, cam->getTransform().p, Vector3D(10, 10, 10) * Vector3D(cam->getDir()), 1, 0.6, true,
+            projectiles->addProjectile(new Particle(projectiles, cam->getTransform().p, Vector3D(250, 250, 250) * Vector3D(cam->getDir()), 10, 0.6, true,
                 physx::PxBoxGeometry(2.0f,2.0f,2.0f), Vector4(1, 1, 1, 1)));
         }
+
+        //if (key == 'b') {
+        //    projectiles->changeMasses(-1.0f);
+        //}
+        //if (key == 'B') {
+        //    projectiles->changeMasses(1.0f);
+        //}
 
         //Cambiar estado de activo de la gravedad
         if (key == 'g' || key == 'G') {
